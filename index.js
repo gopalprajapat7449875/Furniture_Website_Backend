@@ -26,7 +26,8 @@ App.use('/upload-files/testimonial', express.static('upload-files/testimonial'))
 App.use('/upload-files/adminuserandcompony', express.static('upload-files/adminuserandcompony'))
 App.use('/upload-files/about', express.static('upload-files/about'))
 // App.use('/upload-files/cartimages', express.static('upload-files/cartimages'))
-mongoose.connect(`mongodb://127.0.0.1:27017/${process.env.DBCONACTION}`)
+// mongoose.connect(`mongodb://127.0.0.1:27017/${process.env.DBCONACTION}`)
+mongoose.connect(process.env.DBCONACTION)
 
     .then((res) => {
 
