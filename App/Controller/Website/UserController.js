@@ -242,7 +242,7 @@ let ForgotPassaword = async (req, res) => {
           <!-- BUTTON -->
           <tr>
             <td align="center" style="padding:30px 0;">
-              <a href="http://localhost:3000/reset-password/${EmailCheak._id}"
+              <a href="https://furniture-website-monsta.vercel.app/reset-password/${EmailCheak._id}"
                  style="background:#c58a00;
                         color:#fff;
                         padding:14px 35px;
@@ -262,7 +262,7 @@ let ForgotPassaword = async (req, res) => {
                 If the button doesn’t work, copy and paste this link:
               </p>
               <p style="color:#c58a00; font-size:13px; word-break:break-all;">
-              http://localhost:3000/reset-password/${EmailCheak._id}
+              https://furniture-website-monsta.vercel.app/reset-password/${EmailCheak._id}
               </p>
             </td>
           </tr>
