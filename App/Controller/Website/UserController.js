@@ -146,7 +146,7 @@ let ChangePassaword = async (req, res) => {
     let onlytoken = token.split(" ")[1]
     let deCode = jwt.verify(onlytoken, process.env.TOKENKEY)
     let { UserId } = deCode
- 
+
 
 
     let userData = await UserUseadd.findOne({ _id: UserId });
@@ -202,8 +202,8 @@ let ForgotPassaword = async (req, res) => {
             subject: "Furniture Messb|Forgot Password",
             text: "Reset Password link", // Plain-text version of the message
             html: `<!DOCTYPE html>
-<html>
-<head>
+                 <html>
+           <head>
   <meta charset="UTF-8">
   <title>Password Reset</title>
 </head>
@@ -211,45 +211,45 @@ let ForgotPassaword = async (req, res) => {
 <body style="margin:0; padding:0; background:#f5f5f5; font-family: Georgia, serif;">
 
   <table width="100%" cellpadding="0" cellspacing="0">
-    <tr>
-      <td align="center">
+           <tr>
+             <td align="center">
 
-        <!-- MAIN BOX -->
-        <table width="600" cellpadding="0" cellspacing="0" 
-          style="background:#ffffff; padding:40px; border-radius:10px; border:1px solid #eee;">
+                      <!-- MAIN BOX -->
+                      <table width="600" cellpadding="0" cellspacing="0" 
+                               style="background:#ffffff; padding:40px; border-radius:10px; border:1px solid #eee;">
 
-          <!-- HEADER -->
-          <tr>
-            <td align="center">
-             
-              <p style="color:#c58a00; margin-top:5px;">
-               Password Reset
-              </p>
-              <hr style="border:none; border-top:1px solid #eee; margin:20px 0;">
-            </td>
-          </tr>
+                 <!-- HEADER -->
+                 <tr>
+                   <td align="center">
+                    
+                     <p style="color:#c58a00; margin-top:5px;">
+                      Password Reset
+                     </p>
+                     <hr style="border:none; border-top:1px solid #eee; margin:20px 0;">
+                   </td>
+                 </tr>
 
-          <!-- TITLE -->
-          <tr>
-            <td>
-              <h2 style="color:#111;">Reset Your Password</h2>
-              <p style="color:#666; font-size:15px; line-height:1.6;">
-                Forgot your password? No worries. Click the button below to set a new password for your account.
-              </p>
-            </td>
-          </tr>
+                 <!-- TITLE -->
+                 <tr>
+                   <td>
+                     <h2 style="color:#111;">Reset Your Password</h2>
+                     <p style="color:#666; font-size:15px; line-height:1.6;">
+                       Forgot your password? No worries. Click the button below to set a new password for your account.
+                     </p>
+                   </td>
+                 </tr>
 
-          <!-- BUTTON -->
-          <tr>
-            <td align="center" style="padding:30px 0;">
-              <a href="https://furniture-website-monsta.vercel.app/reset-password/${EmailCheak._id}"
-                 style="background:#c58a00;
-                        color:#fff;
-                        padding:14px 35px;
-                        text-decoration:none;
-                        border-radius:25px;
-                        font-weight:bold;
-                        display:inline-block;">
+                 <!-- BUTTON -->
+                 <tr>
+                   <td align="center" style="padding:30px 0;">
+                     <a href="https://furniture-website-monsta.vercel.app/reset-password/${EmailCheak._id}"
+                        style="background:#c58a00;
+                                      color:#fff;
+                                      padding:14px 35px;
+                                      text-decoration:none;
+                                      border-radius:25px;
+                                      font-weight:bold;
+                               display:inline-block;">
                 RESET PASSWORD
               </a>
             </td>
@@ -311,7 +311,7 @@ let ChangePassawordBeforeLogin = async (req, res) => {
 
     let { _NewPassword } = req.body
     let { id } = req.params
-    
+
 
 
 
@@ -364,7 +364,7 @@ let Userdata = async (req, res) => {
         _status: true,
         _message: "User Found",
         userData,
-         _path:process.env.USERMAINPATH,
+        _path: process.env.USERMAINPATH,
     }
     res.send(obj)
 
@@ -373,38 +373,38 @@ let Userdata = async (req, res) => {
 
 let UserUpdate = async (req, res) => {
 
-      let data = { ...req.body }
+    let data = { ...req.body }
     let token = req.headers.authorization;
     let onlytoken = token.split(" ")[1]
     let deCode = jwt.verify(onlytoken, process.env.TOKENKEY)
     let { UserId } = deCode
-     if (req.file) {
+    if (req.file) {
         if (req.file.filename) {
             data['_ProfilePic'] = req.file.filename
         }
     }
     let userData = await UserUseadd.updateOne(
-            { _id: UserId }
-            ,
-            {
-                $set: data
-            }
-        );
-  let obj = {
+        { _id: UserId }
+        ,
+        {
+            $set: data
+        }
+    );
+    let obj = {
         _status: true,
         _message: "User Data Updated",
-       
-      
 
-      
+
+
+
     }
-      console.log(process.env.USERMAINPATH)
+    console.log(process.env.USERMAINPATH)
     res.send(obj)
-  
 
 
 
-   
+
+
 
 }
 
