@@ -17,9 +17,10 @@ let createSlug = (title) => {
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 587,
+  port: 465,
+  secure: true,
   family: 4,
-  secure: false, // Use true for port 465, false for port 587
+  // Use true for port 465, false for port 587
   auth: {
     user: "gopalprajapat7449895@gmail.com",
     pass: "lglf mnwq fzpx nvsc",
@@ -37,8 +38,8 @@ let AdminCreate = async () => {
       _UserPassword: hash
     });
 
-    
-  } 
+
+  }
 
 }
 
