@@ -18,6 +18,7 @@ let createSlug = (title) => {
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
+  family: 4,
   secure: false, // Use true for port 465, false for port 587
   auth: {
     user: "gopalprajapat7449895@gmail.com",
