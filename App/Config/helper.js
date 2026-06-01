@@ -15,15 +15,31 @@ let createSlug = (title) => {
   });
 };
 
+// const transporter = nodemailer.createTransport({
+//   host: "smtp.gmail.com",
+//   port: 587,
+//   secure: false,
+//   family: 4,
+//   // Use true for port 465, false for port 587
+//   auth: {
+//     user: "gopalprajapat7449895@gmail.com",
+//     pass: "lglf mnwq fzpx nvsc",
+//   },
+// });
+
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
   secure: false,
-  family: 4,
-  // Use true for port 465, false for port 587
   auth: {
     user: "gopalprajapat7449895@gmail.com",
     pass: "lglf mnwq fzpx nvsc",
+  },
+  tls: {
+    rejectUnauthorized: false, // helps on some Railway environments
+  },
+  socketOptions: {
+    family: 4, // ✅ Force IPv4 — prevents IPv6 ENETUNREACH on Railway
   },
 });
 
