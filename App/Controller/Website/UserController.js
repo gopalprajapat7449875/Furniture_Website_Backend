@@ -197,7 +197,7 @@ let ForgotPassaword = async (req, res) => {
     if (EmailCheak) {
 
         let info = await transporter.sendMail({
-            from: '"Furniture Mess" <gopalprajapat7449895@gmail.com>',
+            from: '"Furniture Mess" <gopalprajapat7449875@gmail.com>',
             to: _UserEmail,
             subject: "Furniture Messb|Forgot Password",
             text: "Reset Password link", // Plain-text version of the message
