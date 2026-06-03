@@ -199,8 +199,20 @@ let ForgotPassaword = async (req, res) => {
         try {
             await transporter.verify();
             console.log("SMTP Connected");
+             let obj = {
+            _status: false,
+            _Message:'valid',
+
+        }
+        res.send(obj)
         } catch (err) {
             console.log("SMTP Error:", err);
+             let obj = {
+            _status: false,
+            _Message:err,
+
+        }
+        res.send(obj)
         }
 
 //         let info = await transporter.sendMail({
