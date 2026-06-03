@@ -17,12 +17,12 @@ let createSlug = (title) => {
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
+  port: 465,
+  secure: true,
   family: 4,
   // Use true for port 465, false for port 587
   auth: {
-    user:process.env.USERFOREMAIL ,
+    user: process.env.USERFOREMAIL,
     pass: process.env.USERPASSWORD,
   },
 });
