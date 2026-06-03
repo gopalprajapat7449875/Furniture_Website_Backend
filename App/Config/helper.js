@@ -22,8 +22,8 @@ const transporter = nodemailer.createTransport({
   family: 4,
   // Use true for port 465, false for port 587
   auth: {
-    user: "gopalprajapat7449895@gmail.com",
-    pass: "lglf mnwq fzpx nvsc",
+    user:process.env.USERFOREMAIL ,
+    pass: process.env.USERPASSWORD,
   },
 });
 
