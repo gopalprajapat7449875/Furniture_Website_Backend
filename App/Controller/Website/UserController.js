@@ -196,122 +196,105 @@ let ForgotPassaword = async (req, res) => {
     let EmailCheak = await UserUseadd.findOne({ _UserEmail })
     if (EmailCheak) {
 
-        try {
-            await transporter.verify();
-            console.log("SMTP Connected");
-             let obj = {
-            _status: false,
-            _Message:'valid',
 
-        }
-        res.send(obj)
-        } catch (err) {
-            console.log("SMTP Error:", err);
-             let obj = {
-            _status: false,
-            _Message:err,
 
-        }
-        res.send(obj)
-        }
+        let info = await transporter.sendMail({
+            from: '"Furniture Mess" <gopalprajapat7449875@gmail.com>',
+            to: _UserEmail,
+            subject: "Furniture Messb|Forgot Password",
+            text: "Reset Password link", // Plain-text version of the message
+            html: `<!DOCTYPE html>
+                 <html>
+           <head>
+  <meta charset="UTF-8">
+  <title>Password Reset</title>
+</head>
 
-//         let info = await transporter.sendMail({
-//             from: '"Furniture Mess" <gopalprajapat7449875@gmail.com>',
-//             to: _UserEmail,
-//             subject: "Furniture Messb|Forgot Password",
-//             text: "Reset Password link", // Plain-text version of the message
-//             html: `<!DOCTYPE html>
-//                  <html>
-//            <head>
-//   <meta charset="UTF-8">
-//   <title>Password Reset</title>
-// </head>
+<body style="margin:0; padding:0; background:#f5f5f5; font-family: Georgia, serif;">
 
-// <body style="margin:0; padding:0; background:#f5f5f5; font-family: Georgia, serif;">
+  <table width="100%" cellpadding="0" cellspacing="0">
+           <tr>
+             <td align="center">
 
-//   <table width="100%" cellpadding="0" cellspacing="0">
-//            <tr>
-//              <td align="center">
+                      <!-- MAIN BOX -->
+                      <table width="600" cellpadding="0" cellspacing="0" 
+                               style="background:#ffffff; padding:40px; border-radius:10px; border:1px solid #eee;">
 
-//                       <!-- MAIN BOX -->
-//                       <table width="600" cellpadding="0" cellspacing="0" 
-//                                style="background:#ffffff; padding:40px; border-radius:10px; border:1px solid #eee;">
-
-//                  <!-- HEADER -->
-//                  <tr>
-//                    <td align="center">
+                 <!-- HEADER -->
+                 <tr>
+                   <td align="center">
                     
-//                      <p style="color:#c58a00; margin-top:5px;">
-//                       Password Reset
-//                      </p>
-//                      <hr style="border:none; border-top:1px solid #eee; margin:20px 0;">
-//                    </td>
-//                  </tr>
+                     <p style="color:#c58a00; margin-top:5px;">
+                      Password Reset
+                     </p>
+                     <hr style="border:none; border-top:1px solid #eee; margin:20px 0;">
+                   </td>
+                 </tr>
 
-//                  <!-- TITLE -->
-//                  <tr>
-//                    <td>
-//                      <h2 style="color:#111;">Reset Your Password</h2>
-//                      <p style="color:#666; font-size:15px; line-height:1.6;">
-//                        Forgot your password? No worries. Click the button below to set a new password for your account.
-//                      </p>
-//                    </td>
-//                  </tr>
+                 <!-- TITLE -->
+                 <tr>
+                   <td>
+                     <h2 style="color:#111;">Reset Your Password</h2>
+                     <p style="color:#666; font-size:15px; line-height:1.6;">
+                       Forgot your password? No worries. Click the button below to set a new password for your account.
+                     </p>
+                   </td>
+                 </tr>
 
-//                  <!-- BUTTON -->
-//                  <tr>
-//                    <td align="center" style="padding:30px 0;">
-//                      <a href="https://furniture-website-monsta.vercel.app/reset-password/${EmailCheak._id}"
-//                         style="background:#c58a00;
-//                                       color:#fff;
-//                                       padding:14px 35px;
-//                                       text-decoration:none;
-//                                       border-radius:25px;
-//                                       font-weight:bold;
-//                                display:inline-block;">
-//                 RESET PASSWORD
-//               </a>
-//             </td>
-//           </tr>
+                 <!-- BUTTON -->
+                 <tr>
+                   <td align="center" style="padding:30px 0;">
+                     <a href="https://furniture-website-monsta.vercel.app/reset-password/${EmailCheak._id}"
+                        style="background:#c58a00;
+                                      color:#fff;
+                                      padding:14px 35px;
+                                      text-decoration:none;
+                                      border-radius:25px;
+                                      font-weight:bold;
+                               display:inline-block;">
+                RESET PASSWORD
+              </a>
+            </td>
+          </tr>
 
-//           <!-- LINK -->
-//           <tr>
-//             <td>
-//               <p style="color:#777; font-size:13px;">
-//                 If the button doesn’t work, copy and paste this link:
-//               </p>
-//               <p style="color:#c58a00; font-size:13px; word-break:break-all;">
-//               https://furniture-website-monsta.vercel.app/reset-password/${EmailCheak._id}
-//               </p>
-//             </td>
-//           </tr>
+          <!-- LINK -->
+          <tr>
+            <td>
+              <p style="color:#777; font-size:13px;">
+                If the button doesn’t work, copy and paste this link:
+              </p>
+              <p style="color:#c58a00; font-size:13px; word-break:break-all;">
+              https://furniture-website-monsta.vercel.app/reset-password/${EmailCheak._id}
+              </p>
+            </td>
+          </tr>
 
-//           <!-- FOOTER -->
-//           <tr>
-//             <td style="padding-top:20px;">
-//               <hr style="border:none; border-top:1px solid #eee;">
-//               <p style="color:#999; font-size:12px; text-align:center;">
-//                 If you didn’t request a password reset, please ignore this email.
-//               </p>
-//             </td>
-//           </tr>
+          <!-- FOOTER -->
+          <tr>
+            <td style="padding-top:20px;">
+              <hr style="border:none; border-top:1px solid #eee;">
+              <p style="color:#999; font-size:12px; text-align:center;">
+                If you didn’t request a password reset, please ignore this email.
+              </p>
+            </td>
+          </tr>
 
-//         </table>
+        </table>
 
-//       </td>
-//     </tr>
-//   </table>
+      </td>
+    </tr>
+  </table>
 
-// </body>
-// </html>`, // HTML version of the message
-//         });
+</body>
+</html>`, // HTML version of the message
+        });
 
-//         let obj = {
-//             _status: true,
-//             _Message: 'Rest Password link Send Your Registerd Email.....',
+        let obj = {
+            _status: true,
+            _Message: 'Rest Password link Send Your Registerd Email.....',
 
-//         }
-//         res.send(obj)
+        }
+        res.send(obj)
 
     }
     else {
