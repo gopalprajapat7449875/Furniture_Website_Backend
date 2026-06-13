@@ -4,10 +4,8 @@ let aboutschema = mongoose.Schema(
     {
         _AboutDiscription: {
             type: String,
-            
-        },
 
-      
+        },
 
         _AboutHero: String,
 
@@ -19,7 +17,7 @@ let aboutschema = mongoose.Schema(
             type: Date,
             default: new Date()
         }
-        
+
 
     }
 )
