@@ -23,15 +23,7 @@ let UserCreate = async (req, res) => {
         let EmailCheak = await UserUseadd.findOne({ _UserEmail })
 
 
-        if (EmailCheak) {
-            let obj = {
-                _status: false,
-                _Message: 'Email alredy Exist',
-
-            }
-            res.send(obj)
-
-        }
+       
         if (_UserPassword) {
             const saltRounds = 10;
             hashedPassword = await bcrypt.hash(_UserPassword, saltRounds);
@@ -83,6 +75,9 @@ let UserLogin = async (req, res) => {
     try {
 
         let EmailCheak = await UserUseadd.findOne({ _UserEmail })
+
+
+
         if (EmailCheak) {
 
             const match = await bcrypt.compareSync(_UserPassword, EmailCheak._UserPassword);
