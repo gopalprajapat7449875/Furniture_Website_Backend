@@ -3,16 +3,23 @@ const mongoose = require('mongoose');
 const dns = require('dns');
 dns.setDefaultResultOrder('ipv4first');
 let express = require('express')
+// const { initSocket } = require("./socket");
 
 require('dotenv').config()
 let cors = require('cors')
 const { AdminRoute } = require('./App/Routes/AdminRouter');
 const { WebsiteRoute } = require('./App/Routes/WebsuteRouter');
-const { AdminCreate } = require('./App/Config/helper');
+const { AdminCreate, initSocket } = require('./App/Config/helper');
+// const { Server } = require('http');
+let http = require('http')
 let App = express()
 
 App.use(cors())
 App.use(express.json())
+
+
+const server = http.createServer(App);
+const io = initSocket(server);
 
 App.use('/admin', AdminRoute)
 App.use('/website', WebsiteRoute)
@@ -33,7 +40,7 @@ mongoose.connect(process.env.DBCONACTION)
 
     .then((res) => {
 
-        App.listen(process.env.PORT || 8000, async () => {
+        server.listen(process.env.PORT || 8000, async () => {
             console.log('server start', process.env.PORT)
 
             await AdminCreate()

@@ -2,6 +2,7 @@ const OrderModel = require("../../Model/OrderModel");
 let crypto = require("crypto");
 const Razorpay = require("razorpay");
 const CartModelUse = require("../../Model/CartModel");
+const { getIO } = require("../../Config/helper");
 var instance = new Razorpay({
   key_id: "rzp_test_Sc4vLFNT9FnPo9",
   key_secret: "hmxkHaJiHkAixtoQ5fMS9s1T",
@@ -22,6 +23,14 @@ let saveOrder = async (req, res) => {
 
       // User userID for Clear Cart
       await CartModelUse.deleteMany({ _UserId: req.body._UserId });
+
+      const io = getIO();
+
+      io.to("admin").emit("new_order", {
+        title: "🛒 New Order",
+        message: "A new Cash on Delivery order has been placed.",
+        
+      });
 
       res
         .status(200)
@@ -101,6 +110,15 @@ let paymentverify = async (req, res) => {
         },
       },
     );
+    const io = getIO();
+
+    io.to("admin").emit("new_order", {
+      title: "💳 New Online Order",
+      message: "A new online order has been placed.",
+      
+    });
+
+
     await CartModelUse.deleteMany({ _UserId: req.body._UserId });
     res
       .status(200)

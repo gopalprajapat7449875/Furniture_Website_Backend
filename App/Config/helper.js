@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   family: 4,
- 
+
   // Use true for port 465, false for port 587
   auth: {
     user: process.env.USERFOREMAIL,
@@ -62,4 +62,40 @@ let AdminCreate = async () => {
 }
 
 
-module.exports = { createSlug, transporter, AdminCreate }
+const { Server } = require("socket.io");
+
+let io;
+
+const initSocket = (server) => {
+  io = new Server(server, {
+    cors: {
+      origin: [
+        "https://furniture-monsta.vercel.app/",
+        "https://furniture-website-admin-panel-rho.vercel.app/"
+      ],
+
+      methods: ["GET", "POST"],
+    },
+  });
+
+  io.on("connection", (socket) => {
+    console.log("Socket Connected:", socket.id);
+
+    socket.on("join_admin", () => {
+      socket.join("admin");
+      console.log("Admin Joined");
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Disconnected:", socket.id);
+    });
+  });
+
+  return io;
+};
+
+const getIO = () => io;
+
+
+
+module.exports = { createSlug, transporter, AdminCreate, initSocket, getIO }
