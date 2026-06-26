@@ -70,8 +70,9 @@ const initSocket = (server) => {
   io = new Server(server, {
     cors: {
       origin: [
-        "https://furniture-monsta.vercel.app/",
-        "https://furniture-website-admin-panel-rho.vercel.app/"
+        "https://furniture-monsta.vercel.app",
+        "https://furniture-website-admin-panel-rho.vercel.app",
+        "http://localhost:3000"
       ],
 
       methods: ["GET", "POST"],
