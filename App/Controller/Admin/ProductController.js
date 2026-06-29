@@ -370,10 +370,6 @@ let ProductControllerUpdate = async (req, res) => {
 
 
 
-    var check = await ProductUseadd.findOne({
-        
-        _Product_Deleted_to: null
-    })
 
 
     if (req.files) {
@@ -391,16 +387,7 @@ let ProductControllerUpdate = async (req, res) => {
     let slug = createSlug(_ProductName)
 
     data['_Slug'] = slug
-    if (check) {
-        let obj = {
-            _status: false,
-            _Message: 'Product alredy exist',
-
-        }
-        res.send(obj)
-
-
-    } else {
+   
         try {
 
 
@@ -445,6 +432,6 @@ let ProductControllerUpdate = async (req, res) => {
             res.send(obj)
 
         }
-    }
+    
 }
 module.exports = { ProductControlleradd, ProductControllerparent, ProductSubCategoryController, ProductSubSubCategoryController, ProductControllerColor, ProductControllerMaterial, ProductView, ProductDetailsView, ProductControllerdelete, ProductControllerchangestatus, ProductSingleView,ProductControllerUpdate }
