@@ -371,7 +371,7 @@ let ProductControllerUpdate = async (req, res) => {
 
 
     var check = await ProductUseadd.findOne({
-        _ProductName: _ProductName,
+        
         _Product_Deleted_to: null
     })
 
