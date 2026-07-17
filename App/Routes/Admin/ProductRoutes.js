@@ -3,15 +3,17 @@ const { FileUpload } = require('../../Middleware/Fileupload')
 let ProductRoutes = express.Router()
 const multer = require("multer")
 const { ProductControlleradd, ProductControllerparent, ProductSubCategoryController, ProductSubSubCategoryController, ProductControllerColor, ProductControllerMaterial, ProductView, ProductDetailsView, ProductControllerdelete, ProductControllerchangestatus, ProductSingleView, ProductControllerUpdate } = require('../../Controller/Admin/ProductController')
-const storage = FileUpload("product")
+// const storage = FileUpload("product")
 
-const upload = multer({ storage: storage })
+// const upload = multer({ storage: storage })
+const  upload  = require('../../Middleware/upload')
+const  uploadImage  = require('../../Controller/uploadController')
 
 
 ProductRoutes.post('/create', upload.fields([{ name: '_image', maxCount: 1 }, {
 
     name: '_Gallery_image', maxCount: 20
-}]), ProductControlleradd)
+}]),uploadImage("products"), ProductControlleradd)
 ProductRoutes.get('/view', ProductView)
 ProductRoutes.get('/view/:slug', ProductDetailsView)
 ProductRoutes.get('/parent', ProductControllerparent)
@@ -25,5 +27,5 @@ ProductRoutes.get('/updateview/:_id', ProductSingleView)
 ProductRoutes.put('/update/:_id', upload.fields([{ name: '_image', maxCount: 1 }, {
 
     name: '_Gallery_image', maxCount: 20
-}]), ProductControllerUpdate)
+}]),uploadImage("products"), ProductControllerUpdate)
 module.exports = { ProductRoutes }

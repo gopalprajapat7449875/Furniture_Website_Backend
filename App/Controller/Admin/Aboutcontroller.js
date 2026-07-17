@@ -12,9 +12,11 @@ let AboutAdd = async (req, res) => {
 
 
 
-    if (req.file) {
-        if (req.file.filename) {
-            data['_AboutHero'] = req.file.filename
+
+
+    if (req.imageUrl) {
+        if (req.imageUrl) {
+            data['_AboutHero'] =req.imageUrl
         }
     }
 
@@ -58,6 +60,7 @@ let AboutAdd = async (req, res) => {
     }
 }
 let AboutView = async (req, res) => {
+
     let about = await AboutModel.findOne()
 
     let obj = {
@@ -71,10 +74,10 @@ let Aboutupdate = async (req, res) => {
 
     let { _id } = req.params
     let data = { ...req.body }
-
-    if (req.file) {
-        if (req.file.filename) {
-            data['_AboutHero'] = req.file.filename
+    console.log(req.imageUrl)
+    if (req.imageUrl) {
+        if (req.imageUrl) {
+            data['_AboutHero'] = req.imageUrl
         }
     }
     let about = await AboutModel.updateOne(

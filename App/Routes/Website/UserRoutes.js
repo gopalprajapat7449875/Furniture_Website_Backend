@@ -4,16 +4,8 @@ const { UserCreate, UserLogin, ChangePassaword, ForgotPassaword, ChangePassaword
 let UserRoutes = express.Router()
 
 const multer = require("multer")
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "upload-files/userimages")
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now()  + file.originalname)
-    }
-})
-
-const uploadSub = multer({ storage: storage })
+const  uploadImage  = require('../../Controller/uploadController')
+const upload = require('../../Middleware/upload')
 
 
 
@@ -24,7 +16,7 @@ UserRoutes.post('/change-password',ChangePassaword)
 UserRoutes.post('/forgot-password',ForgotPassaword)
 UserRoutes.post('/reset-password/:id',ChangePassawordBeforeLogin)
 UserRoutes.post('/user-data',Userdata)
-UserRoutes.post('/update' ,uploadSub.single("_ProfilePic"),UserUpdate)
+UserRoutes.post('/update' ,upload.single("_ProfilePic"),uploadImage("userweb"),UserUpdate)
 
 
 module.exports={UserRoutes}

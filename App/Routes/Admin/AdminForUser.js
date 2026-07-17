@@ -6,19 +6,20 @@ const { FileUpload } = require('../../Middleware/Fileupload')
 const { SubAdminCreate, AdminLogin, ChangePassawordAdmin, UserdataAdmin, UserUpdateAdmin } = require('../../Controller/Admin/UserAdminController')
 const { CheckToken } = require('../../Middleware/CheckToken')
 const { ComponyCreate, Componydata, componydataupdate } = require('../../Controller/Admin/Componycontroller')
-const storage = FileUpload("adminuserandcompony")
-const upload = multer({ storage: storage })
+// const storage = FileUpload("adminuserandcompony")
+// const upload = multer({ storage: storage })
+const  upload  = require('../../Middleware/upload')
+const  uploadImage  = require('../../Controller/uploadController')
 
 
-
-AdminUserRoutes.post('/create', upload.single("_ProfilePic"), SubAdminCreate)
+AdminUserRoutes.post('/create', upload.single("_ProfilePic"),uploadImage("adminuser"), SubAdminCreate)
 AdminUserRoutes.post('/login', AdminLogin)
 
 
 AdminUserRoutes.post('/change-password', CheckToken, ChangePassawordAdmin)
 
 AdminUserRoutes.post('/user-data', CheckToken, UserdataAdmin)
-AdminUserRoutes.post('/update', upload.single("_ProfilePic"), UserUpdateAdmin)
+AdminUserRoutes.post('/update', upload.single("_ProfilePic"),uploadImage("adminuser"), UserUpdateAdmin)
 
 
 

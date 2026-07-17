@@ -21,9 +21,9 @@ let CategoryControlleradd = async (req, res) => {
         })
     }
 
-    if (req.file) {
+    if (req.imageUrl) {
         if (req.file.filename) {
-            data['_image'] = req.file.filename
+            data['_image'] =req.imageUrl
         }
     }
 
@@ -93,7 +93,7 @@ let CategoryControllerview = async (req, res) => {
     let obj = {
         _status: true,
         _Message: 'Country view',
-        _path: process.env.MAINPATH,
+    
 
         Categoryres
     }
@@ -184,9 +184,9 @@ let data = { ...req.body }
     let { _id } = req.params;
 
     console.log(_id)
-      if (req.file) {
-        if (req.file.filename) {
-            data['_image'] = req.file.filename
+      if (req.imageUrl) {
+        if (req.imageUrl) {
+            data['_image'] = req.imageUrl
         }
     }
     CategoryUseadd.updateOne(
