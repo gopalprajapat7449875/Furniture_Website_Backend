@@ -4,12 +4,6 @@ const { cloudinary } = require("../Config/cloudinary");
 const uploadImage = (folder) => {
   return async (req, res, next) => {
     try {
-      // Agar koi file nahi aayi
-      if (!req.files) {
-        return next();
-      }
-
-      // Single file upload function
       const uploadToCloudinary = (file) => {
         return new Promise((resolve, reject) => {
           const stream = cloudinary.uploader.upload_stream(
@@ -24,15 +18,14 @@ const uploadImage = (folder) => {
         });
       };
 
-      // Response object
       req.uploadedImages = {
         image: null,
         gallery: [],
       };
 
-      // Single Image (_image)
-      if (req.files._image && req.files._image.length > 0) {
-        const result = await uploadToCloudinary(req.files._image[0]);
+      // upload.single("_image")
+      if (req.file) {
+        const result = await uploadToCloudinary(req.file);
 
         req.uploadedImages.image = {
           url: result.secure_url,
@@ -40,23 +33,29 @@ const uploadImage = (folder) => {
         };
       }
 
-      // Gallery Images (_Gallery_image)
-      if (
-        req.files._Gallery_image &&
-        req.files._Gallery_image.length > 0
-      ) {
-        const gallery = await Promise.all(
-          req.files._Gallery_image.map(async (file) => {
-            const result = await uploadToCloudinary(file);
+      // upload.fields(...)
+      if (req.files) {
+        if (req.files._image?.length) {
+          const result = await uploadToCloudinary(req.files._image[0]);
 
-            return {
-              url: result.secure_url,
-              public_id: result.public_id,
-            };
-          })
-        );
+          req.uploadedImages.image = {
+            url: result.secure_url,
+            public_id: result.public_id,
+          };
+        }
 
-        req.uploadedImages.gallery = gallery;
+        if (req.files._Gallery_image?.length) {
+          req.uploadedImages.gallery = await Promise.all(
+            req.files._Gallery_image.map(async (file) => {
+              const result = await uploadToCloudinary(file);
+
+              return {
+                url: result.secure_url,
+                public_id: result.public_id,
+              };
+            })
+          );
+        }
       }
 
       next();
