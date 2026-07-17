@@ -25,11 +25,14 @@ let SubAdminCreate = async (req, res) => {
     } else {
 
 
-        if (req.file) {
-            if (req.file.filename) {
-                data['_ProfilePic'] = req.file.filename
+        if (req.uploadedImages) {
+            if (req.uploadedImages.image) {
+                data['_ProfilePic'] = req.uploadedImages.image.url
             }
         }
+
+
+
 
         let hashedPassword = _UserPassword;
 
@@ -209,11 +212,12 @@ let UserUpdateAdmin = async (req, res) => {
     let deCode = jwt.verify(onlytoken, process.env.TOKENKEY)
     let { UserId } = deCode
 
-    if (req.file) {
-        if (req.file.filename) {
-            data['_ProfilePic'] = req.file.filename
+    if (req.uploadedImages) {
+            if (req.uploadedImages.image) {
+                data['_ProfilePic'] = req.uploadedImages.image.url
+            }
         }
-    }
+    
     await UserAdminUseadd.updateOne(
         { _id: UserId }
         ,

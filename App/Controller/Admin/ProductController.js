@@ -14,7 +14,7 @@ let ProductControlleradd = async (req, res) => {
 
     let data = { ...req.body }
 
-
+console.log(req.uploadedImages)
     let { _ProductName } = req.body
 
 
@@ -26,13 +26,13 @@ let ProductControlleradd = async (req, res) => {
     })
 
 
-    if (req.files) {
-        if (req.files._image) {
-            data['_image'] = req.files._image[0].filename;
+    if (req.uploadedImages) {
+        if (req.uploadedImages.image) {
+            data['_image'] = req.uploadedImages.image.url;
         }
 
-        if (req.files._Gallery_image) {
-            data['_Gallery_image'] = req.files._Gallery_image.map(file => file.filename);
+        if (req.uploadedImages.gallery) {
+            data['_Gallery_image'] = req.uploadedImages.gallery.map(file => file.url);
         }
     }
 
@@ -372,15 +372,18 @@ let ProductControllerUpdate = async (req, res) => {
 
 
 
-    if (req.files) {
-        if (req.files._image) {
-            data['_image'] = req.files._image[0].filename;
+    
+    if (req.uploadedImages) {
+        if (req.uploadedImages.image) {
+            data['_image'] = req.uploadedImages.image.url;
         }
 
-        if (req.files._Gallery_image) {
-            data['_Gallery_image'] = req.files._Gallery_image.map(file => file.filename);
+        if (req.uploadedImages.gallery) {
+            data['_Gallery_image'] = req.uploadedImages.gallery.map(file => file.url);
         }
     }
+
+
 
 
     //men

@@ -18,10 +18,11 @@ let Testimonialadd = async (req, res) => {
             });
         }
 
-        // image
-        if (req.file?.filename) {
-            data["_image"] = req.file.filename;
+    
+        if (req.uploadedImages.image) {
+            data['_image'] = req.uploadedImages.image.url
         }
+ 
 
         let result = await TestimonialModelUse.create(data);
 
@@ -104,17 +105,17 @@ let Testimonialchangestatus = async (req, res) => {
 
     try {
         let result = await TestimonialModelUse.updateOne(
-             { _id: _id }
-        , [{
-            $set: {
-                _TestimonialStatus: {
-                    $not: "$_TestimonialStatus"
+            { _id: _id }
+            , [{
+                $set: {
+                    _TestimonialStatus: {
+                        $not: "$_TestimonialStatus"
+                    }
                 }
+            }],
+            {
+                updatePipeline: true
             }
-        }],
-        {
-            updatePipeline: true
-        }
         );
 
         res.send({
@@ -155,9 +156,11 @@ let Testimonialupdate = async (req, res) => {
     let data = { ...req.body };
 
     try {
-        if (req.file?.filename) {
-            data["_image"] = req.file.filename;
-        }
+       
+            if (req.uploadedImages.image) {
+                data['_image'] = req.uploadedImages.image.url
+            }
+        
 
         let result = await TestimonialModelUse.updateOne(
             { _id },

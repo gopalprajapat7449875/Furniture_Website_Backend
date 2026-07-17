@@ -21,9 +21,9 @@ let CategoryControlleradd = async (req, res) => {
         })
     }
 
-    if (req.imageUrl) {
-        if (req.file.filename) {
-            data['_image'] =req.imageUrl
+   if (req.uploadedImages) {
+        if ( req.uploadedImages.image) {
+            data['_image'] =  req.uploadedImages.image.url
         }
     }
 
@@ -183,10 +183,10 @@ let CategoryControllerupdate = (req, res) => {
 let data = { ...req.body }
     let { _id } = req.params;
 
-    console.log(_id)
-      if (req.imageUrl) {
-        if (req.imageUrl) {
-            data['_image'] = req.imageUrl
+    
+      if (req.uploadedImages) {
+        if ( req.uploadedImages.image) {
+            data['_image'] =  req.uploadedImages.image.url
         }
     }
     CategoryUseadd.updateOne(

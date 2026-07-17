@@ -5,16 +5,15 @@ let ComponyCreate = async (req, res) => {
 
     let data = { ...req.body }
 
-   
+
 
     if (data) {
 
-        if (req.file) {
-            if (req.file.filename) {
-                data['_logoimg'] = req.file.filename
+        if (req.uploadedImages) {
+            if (req.uploadedImages.image) {
+                data['_logoimg'] = req.uploadedImages.image.url
             }
         }
-
 
 
         await ComponyModel.insertOne(data);
@@ -25,12 +24,12 @@ let ComponyCreate = async (req, res) => {
         res.send(obj)
 
     }
-    else{
-         let obj = {
+    else {
+        let obj = {
             _status: false,
 
         }
-           res.send(obj) 
+        res.send(obj)
     }
 
 }
@@ -54,9 +53,9 @@ let componydataupdate = async (req, res) => {
     let { _id } = req.params
     let data = { ...req.body }
 
-    if (req.file) {
-        if (req.file.filename) {
-            data['_logoimg'] = req.file.filename
+    if (req.uploadedImages) {
+        if (req.uploadedImages.image) {
+            data['_logoimg'] = req.uploadedImages.image.url
         }
     }
     let userData = await ComponyModel.updateOne(

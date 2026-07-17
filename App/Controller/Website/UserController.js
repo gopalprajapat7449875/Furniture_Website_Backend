@@ -379,11 +379,12 @@ let UserUpdate = async (req, res) => {
     let onlytoken = token.split(" ")[1]
     let deCode = jwt.verify(onlytoken, process.env.TOKENKEY)
     let { UserId } = deCode
-    if (req.file) {
-        if (req.file.filename) {
-            data['_ProfilePic'] = req.file.filename
+
+      if (req.uploadedImages) {
+            if (req.uploadedImages.image) {
+                data['_ProfilePic'] = req.uploadedImages.image.url
+            }
         }
-    }
     let userData = await UserUseadd.updateOne(
         { _id: UserId }
         ,

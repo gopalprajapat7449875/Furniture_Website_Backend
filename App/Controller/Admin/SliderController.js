@@ -21,9 +21,9 @@ let SliderControlleradd = async (req, res) => {
         })
     }
 
-    if (req.file) {
-        if (req.file.filename) {
-            data['_image'] = req.file.filename
+if (req.uploadedImages) {
+        if (req.uploadedImages.image) {
+            data['_image'] = req.uploadedImages.image.url
         }
     }
 
@@ -170,20 +170,21 @@ let Slidercontrollersingledata = async (req, res) => {
     res.status(200).json({
         _status: true,
         _Message: 'Slider Found',
-         _path: process.env.SLIDERMAINPATH,
+        _path: process.env.SLIDERMAINPATH,
         data
     })
 }
 let SliderControllerupdate = (req, res) => {
-let data = { ...req.body }
+    let data = { ...req.body }
     let { _id } = req.params;
 
-    console.log(_id)
-      if (req.file) {
-        if (req.file.filename) {
-            data['_image'] = req.file.filename
+    if (req.uploadedImages) {
+        if (req.uploadedImages.image) {
+            data['_image'] = req.uploadedImages.image.url
         }
     }
+
+
     SliderUseadd.updateOne(
         { _id: _id }
         ,

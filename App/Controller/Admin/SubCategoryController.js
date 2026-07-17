@@ -22,9 +22,9 @@ let SubCategoryControlleradd = async (req, res) => {
         })
     }
 
-    if(req.file){
-        if(req.file.filename){
-            data['_image']=req.file.filename
+   if (req.uploadedImages) {
+        if (req.uploadedImages.image) {
+            data['_image'] = req.uploadedImages.image.url
         }
     }
 
@@ -196,10 +196,10 @@ let SubCategoryControllerupdate = (req, res) => {
 let data = { ...req.body }
     let { _id } = req.params;
 
-    console.log(_id)
-      if (req.file) {
-        if (req.file.filename) {
-            data['_image'] = req.file.filename
+    
+     if (req.uploadedImages) {
+        if (req.uploadedImages.image) {
+            data['_image'] = req.uploadedImages.image.url
         }
     }
     SubCategoryUseadd.updateOne(

@@ -5,18 +5,10 @@ let AboutAdd = async (req, res) => {
 
 
     let data = { ...req.body }
-
-
-
-
-
-
-
-
-
-    if (req.imageUrl) {
-        if (req.imageUrl) {
-            data['_AboutHero'] =req.imageUrl
+ 
+    if ( req.uploadedImages) {
+        if ( req.uploadedImages.image) {
+            data['_AboutHero'] = req.uploadedImages.image.url
         }
     }
 
@@ -74,10 +66,10 @@ let Aboutupdate = async (req, res) => {
 
     let { _id } = req.params
     let data = { ...req.body }
-    console.log(req.imageUrl)
-    if (req.imageUrl) {
-        if (req.imageUrl) {
-            data['_AboutHero'] = req.imageUrl
+   
+    if ( req.uploadedImages) {
+        if ( req.uploadedImages.image) {
+            data['_AboutHero'] = req.uploadedImages.image.url
         }
     }
     let about = await AboutModel.updateOne(
