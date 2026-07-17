@@ -25,8 +25,8 @@ AdminUserRoutes.post('/update', upload.single("_ProfilePic"),uploadImage("adminu
 
 
 
-AdminUserRoutes.post('/componycreate', upload.single("_logoimg"), ComponyCreate)
+AdminUserRoutes.post('/componycreate', upload.single("_logoimg"),uploadImage("adminuser"), ComponyCreate)
 AdminUserRoutes.get('/compony-data', Componydata)
-AdminUserRoutes.post('/update/:_id', upload.single("_logoimg"), componydataupdate)
+AdminUserRoutes.post('/update/:_id', upload.single("_logoimg"),uploadImage("adminuser"), componydataupdate)
 
 module.exports = { AdminUserRoutes }
