@@ -400,7 +400,7 @@ let UserUpdate = async (req, res) => {
 
 
     }
-    console.log(process.env.USERMAINPATH)
+   
     res.send(obj)
 
 

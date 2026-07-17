@@ -14,7 +14,6 @@ let ProductControlleradd = async (req, res) => {
 
     let data = { ...req.body }
 
-console.log(req.uploadedImages)
     let { _ProductName } = req.body
 
 
