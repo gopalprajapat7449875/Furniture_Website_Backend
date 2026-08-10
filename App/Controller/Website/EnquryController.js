@@ -4,11 +4,11 @@ const UserUseadd = require("../../Model/UserModel")
 
 let ContectAdd = async (req, res) => {
 
-    let { _UserId } = req.body
 
-    let check = await UserUseadd.findOne({ _id: _UserId })
+
+    // let check = await UserUseadd.findOne({ _id: _UserId })
     let obj;
-    if (check) {
+    if (req.body) {
         let res = await ContectModelUse.insertOne(req.body)
 
 
@@ -21,7 +21,7 @@ let ContectAdd = async (req, res) => {
     else {
         obj = {
             _Status: false,
-            _Message: "Login First"
+            _Message: " Please fill form again "
         }
 
     }

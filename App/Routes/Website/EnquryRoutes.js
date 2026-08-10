@@ -6,7 +6,7 @@ const { CheckToken } = require("../../Middleware/CheckToken")
 
 let EnquryRoutes = express.Router()
 
-EnquryRoutes.post('/contect',CheckToken, ContectAdd)
+EnquryRoutes.post('/contect', ContectAdd)
 EnquryRoutes.post('/newsletter',CheckToken, NewslettersAdd)
 
 module.exports = { EnquryRoutes }
