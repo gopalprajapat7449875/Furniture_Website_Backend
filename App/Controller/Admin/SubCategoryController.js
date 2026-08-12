@@ -8,21 +8,21 @@ let SubCategoryControlleradd = async (req, res) => {
 
 
 
- let data = {...req.body}
-    
+    let data = { ...req.body }
 
-    let {_SubCategoryName} = req.body
+
+    let { _SubCategoryName } = req.body
 
     if (_SubCategoryName != 'Anil') {
 
 
         var check = await SubCategoryUseadd.findOne({
-            _SubCategoryName:_SubCategoryName,
+            _SubCategoryName: _SubCategoryName,
             _SubCategory_Deleted_to: null
         })
     }
 
-   if (req.uploadedImages) {
+    if (req.uploadedImages) {
         if (req.uploadedImages.image) {
             data['_image'] = req.uploadedImages.image.url
         }
@@ -48,9 +48,9 @@ let SubCategoryControlleradd = async (req, res) => {
             let obj = {
                 _status: true,
                 _Message: 'SubCategory add',
-               
+
                 Subcategoryres,
-               
+
 
             }
             res.send(obj)
@@ -80,28 +80,46 @@ let SubCategoryControlleradd = async (req, res) => {
 }
 
 let SubCategoryControllerview = async (req, res) => {
+    var limit = 8;
+    var skip = 0;
+    var page = 1;
 
+    if (req.query) {
+        if (req.query.limit != undefined && req.query.limit != '') {
+            limit = req.query.limit;
+        }
+
+        if (req.query.page != undefined && req.query.page != '') {
+            page = req.query.page;
+            skip = (page - 1) * limit;
+        }
+    }
 
     let nondeleted = {
         _SubCategory_Deleted_to: null
     }
-    let SubCategoryres = await SubCategoryUseadd.find(nondeleted).populate("_PerentCategory","_CategoryName")
+    var totalRecords = await SubCategoryUseadd.find(nondeleted).countDocuments();
+    let SubCategoryres = await SubCategoryUseadd.find(nondeleted).populate("_PerentCategory", "_CategoryName")
     let obj = {
         _status: true,
         _Message: 'Category view',
-         _path : process.env.SUBMAINPATH,
+        SubCategoryres,
+        _paginate: {
+            Total_Records: totalRecords,
+            Current_Page: page,
+            Total_Pages: Math.ceil(totalRecords / limit)
+        },
 
-        SubCategoryres
     }
     res.send(obj)
 }
 
-let SubCategoryControllerparent=async (req, res) => {
+let SubCategoryControllerparent = async (req, res) => {
 
 
     let nondeleted = {
         _Category_Deleted_to: null,
-        _CategoryStatus:true
+        _CategoryStatus: true
 
     }
     let Categoryres = await CategoryUseadd.find(nondeleted).select('_CategoryName')
@@ -193,11 +211,11 @@ let Subcontrollersingledata = async (req, res) => {
     })
 }
 let SubCategoryControllerupdate = (req, res) => {
-let data = { ...req.body }
+    let data = { ...req.body }
     let { _id } = req.params;
 
-    
-     if (req.uploadedImages) {
+
+    if (req.uploadedImages) {
         if (req.uploadedImages.image) {
             data['_image'] = req.uploadedImages.image.url
         }
@@ -236,4 +254,4 @@ let data = { ...req.body }
 
 
 
-module.exports ={SubCategoryControlleradd,SubCategoryControllerview,SubCategoryControllerparent,SubCategoryControllerdelete,SubCategoryControllerchangestatus,Subcontrollersingledata,SubCategoryControllerupdate}
+module.exports = { SubCategoryControlleradd, SubCategoryControllerview, SubCategoryControllerparent, SubCategoryControllerdelete, SubCategoryControllerchangestatus, Subcontrollersingledata, SubCategoryControllerupdate }

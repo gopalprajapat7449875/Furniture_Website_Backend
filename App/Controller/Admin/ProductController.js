@@ -92,9 +92,32 @@ let ProductControlleradd = async (req, res) => {
 }
 let ProductView = async (req, res) => {
 
+    var limit = 12;
+    var skip = 0;
+    var page = 1;
+
+    if (req.query) {
+        if (req.query.limit != undefined && req.query.limit != '') {
+            limit = req.query.limit;
+        }
+
+        if (req.query.page != undefined && req.query.page != '') {
+            page = req.query.page;
+            skip = (page - 1) * limit;
+        }
+    }
+
+
+    var orCondition = [];
+
+
+
+
+    //andCondition
     let nondeleted = {
         _Product_Deleted_to: null
     }
+    var totalRecords = await ProductUseadd.find(nondeleted).countDocuments();
     let productres = await ProductUseadd.find(nondeleted).populate([
         {
             path: "_PerentCategory",
@@ -120,8 +143,14 @@ let ProductView = async (req, res) => {
     let obj = {
         _status: true,
         _Message: 'Product view',
-        _Path: process.env.PRODUCTMAINPATH,
-        productres
+
+        productres,
+        _paginate: {
+            Total_Records: totalRecords,
+            Current_Page: page,
+            Total_Pages: Math.ceil(totalRecords / limit)
+        },
+        
     }
     res.send(obj)
 
@@ -371,7 +400,7 @@ let ProductControllerUpdate = async (req, res) => {
 
 
 
-    
+
     if (req.uploadedImages) {
         if (req.uploadedImages.image) {
             data['_image'] = req.uploadedImages.image.url;
@@ -389,51 +418,51 @@ let ProductControllerUpdate = async (req, res) => {
     let slug = createSlug(_ProductName)
 
     data['_Slug'] = slug
-   
-        try {
+
+    try {
 
 
-            let productres = await ProductUseadd.updateOne(
-                { _id: _id }
-                ,
-                {
-                    $set: data
-                }
-
-            )
-
-
-            let obj = {
-                _status: true,
-                _Message: 'Product Updated',
-
-                productres,
-
-
+        let productres = await ProductUseadd.updateOne(
+            { _id: _id }
+            ,
+            {
+                $set: data
             }
-            res.send(obj)
+
+        )
+
+
+        let obj = {
+            _status: true,
+            _Message: 'Product Updated',
+
+            productres,
 
 
         }
-        catch (err) {
+        res.send(obj)
 
-            console.log(err);
 
-            let errorrs = err.errors
-            let erre = []
-            for (let key in errorrs) {
-                let errobj = {}
-                errobj[key] = errorrs[key].message
-                erre.push(errobj)
+    }
+    catch (err) {
 
-            }
-            let obj = {
-                _status: false,
-                erre
-            }
-            res.send(obj)
+        console.log(err);
+
+        let errorrs = err.errors
+        let erre = []
+        for (let key in errorrs) {
+            let errobj = {}
+            errobj[key] = errorrs[key].message
+            erre.push(errobj)
 
         }
-    
+        let obj = {
+            _status: false,
+            erre
+        }
+        res.send(obj)
+
+    }
+
 }
-module.exports = { ProductControlleradd, ProductControllerparent, ProductSubCategoryController, ProductSubSubCategoryController, ProductControllerColor, ProductControllerMaterial, ProductView, ProductDetailsView, ProductControllerdelete, ProductControllerchangestatus, ProductSingleView,ProductControllerUpdate }
+module.exports = { ProductControlleradd, ProductControllerparent, ProductSubCategoryController, ProductSubSubCategoryController, ProductControllerColor, ProductControllerMaterial, ProductView, ProductDetailsView, ProductControllerdelete, ProductControllerchangestatus, ProductSingleView, ProductControllerUpdate }
