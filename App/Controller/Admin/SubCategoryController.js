@@ -99,7 +99,7 @@ let SubCategoryControllerview = async (req, res) => {
         _SubCategory_Deleted_to: null
     }
     var totalRecords = await SubCategoryUseadd.find(nondeleted).countDocuments();
-    let SubCategoryres = await SubCategoryUseadd.find(nondeleted).populate("_PerentCategory", "_CategoryName")
+    let SubCategoryres = await SubCategoryUseadd.find(nondeleted).populate("_PerentCategory", "_CategoryName").limit(limit).skip(skip)
     let obj = {
         _status: true,
         _Message: 'Category view',
