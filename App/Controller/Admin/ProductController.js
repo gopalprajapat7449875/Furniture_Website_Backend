@@ -92,7 +92,7 @@ let ProductControlleradd = async (req, res) => {
 }
 let ProductView = async (req, res) => {
 
-    var limit = 12;
+    var limit = 9;
     var skip = 0;
     var page = 1;
 
@@ -139,7 +139,7 @@ let ProductView = async (req, res) => {
             path: "_Color",
             select: "_ColorName"
         }
-    ])
+    ]).limit(limit).skip(skip)
     let obj = {
         _status: true,
         _Message: 'Product view',
@@ -150,7 +150,7 @@ let ProductView = async (req, res) => {
             Current_Page: page,
             Total_Pages: Math.ceil(totalRecords / limit)
         },
-        
+
     }
     res.send(obj)
 
