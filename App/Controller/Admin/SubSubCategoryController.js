@@ -81,10 +81,28 @@ let SubSubCategoryControlleradd = async (req, res) => {
 }
 let SubSubCategoryControllerview = async (req, res) => {
 
+    var limit = 9;
+    var skip = 0;
+    var page = 1;
+
+    if (req.query) {
+        if (req.query.limit != undefined && req.query.limit != '') {
+            limit = req.query.limit;
+        }
+
+        if (req.query.page != undefined && req.query.page != '') {
+            page = req.query.page;
+            skip = (page - 1) * limit;
+        }
+    }
+
+
+    var orCondition = [];
 
     let nondeleted = {
         _SubSubCategory_Deleted_to: null
     }
+    var totalRecords = await SubSubCategoryUseadd.find(nondeleted).countDocuments();
     let SubSubCategoryres = await SubSubCategoryUseadd.find(nondeleted).populate([
         {
             path: "_PerentCategory",
@@ -94,13 +112,17 @@ let SubSubCategoryControllerview = async (req, res) => {
             path: "_SubCategory",
             select: "_SubCategoryName"
         }
-    ])
+    ]).limit(limit).skip(skip)
     let obj = {
         _status: true,
         _Message: 'sub sub Category view',
-        _path: process.env.SUBSUBMAINPATH,
 
-        SubSubCategoryres
+        SubSubCategoryres,
+        _paginate: {
+            Total_Records: totalRecords,
+            Current_Page: page,
+            Total_Pages: Math.ceil(totalRecords / limit)
+        },
     }
     res.send(obj)
 }
@@ -230,7 +252,8 @@ let SubSubCategoryControllerupdate = (req, res) => {
     let data = { ...req.body }
     let { _id } = req.params;
 
-   
+
+
     if (req.uploadedImages) {
         if (req.uploadedImages.image) {
             data['_image'] = req.uploadedImages.image.url
