@@ -9,11 +9,37 @@ const TestimonialModelUse = require("../../Model/TestimonialModel");
 
 let getProduct = async (req, res) => {
 
+
+    var limit = 9;
+    var skip = 0;
+    var page = 1;
+
+    if (req.query) {
+        if (req.query.limit != undefined && req.query.limit != '') {
+            limit = req.query.limit;
+        }
+
+        if (req.query.page != undefined && req.query.page != '') {
+            page = req.query.page;
+            skip = (page - 1) * limit;
+        }
+    }
+
+
+    var orCondition = [];
+
+
+
+
+    //andCondition
+
+
     let filter = {
         _Product_Deleted_to: null,
 
         _ProductStatus: true,
     };
+    var totalRecords = await ProductUseadd.find(nondeleted).countDocuments();
     let productres = await ProductUseadd
         .find(filter)
         .populate([
@@ -37,13 +63,18 @@ let getProduct = async (req, res) => {
                 path: "_Color",
                 select: "_ColorName"
             }
-        ])
+        ]).limit(limit).skip(skip)
 
     let obj = {
         _status: true,
         _message: "Product View ",
-        _Path: process.env.PRODUCTMAINPATH,
         productres,
+        _paginate: {
+            Total_Records: totalRecords,
+            Current_Page: page,
+            Total_Pages: Math.ceil(totalRecords / limit)
+        },
+
     }
     res.send(obj);
 }
@@ -51,7 +82,7 @@ let getProduct = async (req, res) => {
 
 let getProductDetail = async (req, res) => {
     let { _Slug } = req.params
-console.log(_Slug)
+    console.log(_Slug)
 
     let filter = {
         _Product_Deleted_to: null,
@@ -144,7 +175,7 @@ let Categoryview = async (req, res) => {
 
     let nondeleted = {
         _Category_Deleted_to: null,
-        _CategoryStatus:true
+        _CategoryStatus: true
     }
     let Categoryres = await CategoryUseadd.find(nondeleted)
     let obj = {
@@ -161,13 +192,13 @@ let SubCategoryview = async (req, res) => {
 
     let nondeleted = {
         _SubCategory_Deleted_to: null,
-        _SubCategoryStatus:true
+        _SubCategoryStatus: true
     }
-    let SubCategoryres = await SubCategoryUseadd.find(nondeleted).populate("_PerentCategory","_CategoryName")
+    let SubCategoryres = await SubCategoryUseadd.find(nondeleted).populate("_PerentCategory", "_CategoryName")
     let obj = {
         _status: true,
         _Message: 'Category view',
-         _path : process.env.SUBMAINPATH,
+        _path: process.env.SUBMAINPATH,
 
         SubCategoryres
     }
@@ -180,12 +211,12 @@ let colorviewdata = async (req, res) => {
 
     let nondeleted = {
         _Color_Deleted_to: null,
-        _ColorStatus:true
+        _ColorStatus: true
 
     }
-     let colorres = await ColorUseadd.find(nondeleted)
-  
-     let obj = {
+    let colorres = await ColorUseadd.find(nondeleted)
+
+    let obj = {
         _status: true,
         colorres
     }
@@ -197,17 +228,17 @@ let Materialviewdata = async (req, res) => {
 
     let nondeleted = {
         _Metarial_Deleted_to: null,
-        _MetarialStatus:true
+        _MetarialStatus: true
 
     }
     let Materialres = await MaterialUseadd.find(nondeleted)
     let obj = {
         _status: true,
-      
+
         Materialres
     }
     res.send(obj)
 }
 
 
-module.exports = { getProduct, getProductDetail, getSlider,gettestimonial,ComponydataWeb,Categoryview,SubCategoryview,colorviewdata,Materialviewdata }
+module.exports = { getProduct, getProductDetail, getSlider, gettestimonial, ComponydataWeb, Categoryview, SubCategoryview, colorviewdata, Materialviewdata }
