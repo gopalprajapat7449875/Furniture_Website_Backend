@@ -39,7 +39,7 @@ let getProduct = async (req, res) => {
 
         _ProductStatus: true,
     };
-    var totalRecords = await ProductUseadd.find(nondeleted).countDocuments();
+    var totalRecords = await ProductUseadd.find(filter).countDocuments();
     let productres = await ProductUseadd
         .find(filter)
         .populate([
