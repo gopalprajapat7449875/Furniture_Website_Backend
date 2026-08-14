@@ -143,7 +143,6 @@ let ProductView = async (req, res) => {
     let obj = {
         _status: true,
         _Message: 'Product view',
-
         productres,
         _paginate: {
             Total_Records: totalRecords,
